@@ -1,8 +1,9 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const user = require('./routes/user-route/user');
 const mongoose = require('mongoose');
 const db = require('./config/database/database');
+const user = require('./routes/user-route/user');
+const my_account = require('./routes/home-route/account/my-account');
 
 var port = 4040;
 var app = express();
@@ -28,5 +29,6 @@ app.listen(port, (err) => {
 
 // Routing to controllers
 app.use('/', user);
+app.use('/my_account',my_account);
 
 exports = app;

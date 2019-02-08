@@ -20,17 +20,20 @@ const registeration = async (req, res) => {
         // Encrypt the password
         var hash = bcrypt.hashSync(req.body.password, 10);
         newUser.password = hash;
-            console.log('called'); 
         if (await User.findOne({ email: req.body.email })) {
             res.status(402).json({
-                msg: 'Email is already exist',
+                msg: 'Email already exist',
                 status: 0
             });
         } else {
             const registereduser = await newUser.save();
             res.status(200).json({
                 msg: 'user registered',
-                response: registereduser,
+                response:{
+                    username:registereduser.username,
+                    empid:registereduser.empid,
+                    email:registereduser.email
+                },
                 status: 1
             });
         }
@@ -57,9 +60,9 @@ const login = async (req, res) => {
                          userId:user._id 
                     },
                     db.JWT_KEY,
-                    {
-                        expiresIn: '1h'
-                    }
+                    // {
+                    //     expiresIn: '1h'
+                    // }
                 );
                 res.status(200).json({
                     msg: 'you are logged in',
